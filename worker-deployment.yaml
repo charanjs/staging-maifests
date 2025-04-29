@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hilal-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hilal-worker
+  template:
+    metadata:
+      labels:
+        app: hilal-worker
+    spec:
+      containers:
+        - name: hilal-worker
+          image: jbscharan123/hilal_auth_worker:latest
+          envFrom:
+            - configMapRef:
+                name: hilal-config
+            - secretRef:
+                name: hilal-secrets

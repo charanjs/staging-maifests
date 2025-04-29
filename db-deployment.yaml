@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hilal-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hilal-db
+  template:
+    metadata:
+      labels:
+        app: hilal-db
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:14-alpine
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: auth
+            - name: POSTGRES_DB
+              value: auth
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: hilal-secrets
+                  key: POSTGRES_PASSWORD
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-storage
+      volumes:
+        - name: postgres-storage
+          emptyDir: {} # TODO: swap to PVC in production
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hilal-db-service
+spec:
+  selector:
+    app: hilal-db
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hilal-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hilal-app
+  template:
+    metadata:
+      labels:
+        app: hilal-app
+    spec:
+      containers:
+        - name: hilal-app
+          image: jbscharan123/hilal_auth:latest
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: hilal-config
+            - secretRef:
+                name: hilal-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hilal-app-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: hilal-app
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
