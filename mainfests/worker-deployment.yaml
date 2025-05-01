@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: hilal-worker
-          image: stagingacr001.azurecr.io/hilal_auth_worker:9ef6adb
+          image: stagingacr001.azurecr.io/hilal_auth_worker:3676aa0
           envFrom:
             - configMapRef:
                 name: hilal-config
