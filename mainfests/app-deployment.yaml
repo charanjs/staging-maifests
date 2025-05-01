@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: hilal-app
-          image: stagingacr001.azurecr.io/hilal_auth_app:3676aa0
+          image: stagingacr001.azurecr.io/hilal_auth_app:fb8ca50
           ports:
             - containerPort: 8000
           envFrom:
